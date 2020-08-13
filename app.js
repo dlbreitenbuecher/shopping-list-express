@@ -4,13 +4,13 @@
 const express = require('express');
 const morgan = require('morgan');
 const fakeDb = require('./fakeDb');
+
+//Router
 const itemsRoutes = require('./itemsRoutes')
 
 const { ExpressError, NotFoundError } = require('./expressError');
 
 const app = express();
-
-//Router
 
 app.use(morgan('dev'));
 app.use(express.json());
@@ -21,10 +21,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/items', itemsRoutes)
 
 // Catch All for 404 errors
-// app.use(function(req, res, next){
-//     const notFoundError = new NotFoundError();
-//     return next(notFoundError);
-// })
+app.use(function(req, res, next){
+    const notFoundError = new NotFoundError();
+    return next(notFoundError);
+})
 
 
 // Error Handler

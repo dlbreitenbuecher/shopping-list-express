@@ -1,13 +1,11 @@
 const express = require('express')
-const db = require("./fakeDb")
+const fakeDb = require("./fakeDb")
 const { ExpressError, NotFoundError } = require('./expressError');
 
-const app = express()
 const router = new express.Router()
 
 
-
-app.get('/', function(req, res, next){
+router.get('/', function(req, res, next){
     console.log('/items - GET')
 
     try {
@@ -17,7 +15,7 @@ app.get('/', function(req, res, next){
     }
 })
 
-app.post('/', function(req, res, next){
+router.post('/', function(req, res, next){
     console.log('/items - POST')
     try {
         let newItem = req.body;
@@ -30,5 +28,49 @@ app.post('/', function(req, res, next){
         next(err);
     }
 })
+
+// Returns single item
+router.get('/:name', function (req, res, next){
+    console.log('/items/:name - GET')
+    try{
+        let name = req.params.name
+        let fetchedItem = fakeDb.get(name)
+        return res.json(fetchedItem)
+    }
+    catch(err){
+        next(err)
+    }
+})
+
+// Updates an item
+router.patch('/:name', function (req, res, next){
+    console.log('/items/:name - PATCH')
+    try{
+        let name = req.params.name
+        let fetchedItem = fakeDb.get(name)
+        fetchedItem.name = req.body.name
+        fetchedItem.price = req.body.price
+
+        return res.json(fetchedItem)
+    }
+    catch(err){
+        next(err)
+    }
+})
+
+// Deletes an item
+router.delete('/:name', function (req, res, next){
+    console.log('/items/:name - DELETE')
+    try{
+        let name = req.params.name
+        let fetchedItem = fakeDb.delete(name)
+
+        return res.json({message: "Deleted"})
+    }
+    catch(err){
+        next(err)
+    }
+})
+
 
 module.exports = router

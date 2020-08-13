@@ -1,5 +1,6 @@
 'use strict';
-const items = [{name: "popsicle", price: "1.45" }, { name: "cheerios", price: "3.40" }]
+const items = []
+const { ExpressError, NotFoundError } = require('./expressError');
 
 class fakeDb {
 
@@ -13,6 +14,7 @@ class fakeDb {
                 return item
             }
         }
+        throw new NotFoundError()
     }
 
     static add(name, price){
