@@ -1,11 +1,12 @@
 'use strict';
+const items = [{name: "popsicle", price: "1.45" }, { name: "cheerios", price: "3.40" }]
 
-/****** Class representing a shopping list, which pretends to be built on top of a DB. */
-class ShoppingList {
-    static items = []
+class fakeDb {
+
     static all(){
         return items
     }
+
     static get(name){
         for (let item of items){
             if (item.name === name){
@@ -13,11 +14,13 @@ class ShoppingList {
             }
         }
     }
+
     static add(name, price){
-        // let item = new Item(name, price)
         let item = { name, price };
+        console.log('item' + item)
         items.push(item);
     }
+
     static delete(name){
         for (let index in items){
             if (items[index].name === name){
@@ -26,12 +29,5 @@ class ShoppingList {
         }
     }
 }
-/****** Class representing an item */
-// class Item {
-//     constructor(name, price){
-//         this.name = name
-//         this.item = item
-//     }
-// }
 
-module.exports = { ShoppingList };
+module.exports = fakeDb;
